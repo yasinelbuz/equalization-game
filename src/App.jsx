@@ -1,39 +1,16 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import MatrixButton from "./components/MatrixButton";
+import Settings from "./components/Settings";
+import Matrix from "./components/Matrix";
 import { useGlobal } from "./features/GlobalContext";
-import startGame from "./Helpers/StartGame";
+import ModalCom from "./components/ModalCom";
 
 function App() {
-	const { matrixNumberChangeClick, matrix, setMatrix } = useGlobal();
-
-	useEffect(() => {
-		let data = startGame();
-		setMatrix(data);
-	}, []);
+	const { isOpen } = useGlobal();
 
 	return (
-		<div>
-			{matrix.map((items, index) => {
-				return (
-					<div key={index}>
-						{items.map((sumItem, subIndex) => (
-							<MatrixButton
-								onClick={() =>
-									matrixNumberChangeClick(
-										index,
-										subIndex,
-										items
-									)
-								}
-								key={subIndex}
-							>
-								{sumItem}
-							</MatrixButton>
-						))}
-					</div>
-				);
-			})}
+		<div className="flex h-full">
+			{isOpen && <Settings />}
+			<Matrix />
+			<ModalCom />
 		</div>
 	);
 }
